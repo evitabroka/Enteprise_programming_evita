@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enteprise_programming_evita", "Enteprise_programming_evita\Enteprise_programming_evita.csproj", "{A89CBE30-5A6D-4BAA-9145-2BA9EEAD5D7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enteprise_programming_evita.Tests", "Enteprise_programming_evita.Tests\Enteprise_programming_evita.Tests.csproj", "{73E8150D-1152-4DAF-A8F5-9CC5160A2CF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A89CBE30-5A6D-4BAA-9145-2BA9EEAD5D7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89CBE30-5A6D-4BAA-9145-2BA9EEAD5D7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89CBE30-5A6D-4BAA-9145-2BA9EEAD5D7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89CBE30-5A6D-4BAA-9145-2BA9EEAD5D7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73E8150D-1152-4DAF-A8F5-9CC5160A2CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73E8150D-1152-4DAF-A8F5-9CC5160A2CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73E8150D-1152-4DAF-A8F5-9CC5160A2CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73E8150D-1152-4DAF-A8F5-9CC5160A2CF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D520CDF3-FBBF-4668-9C96-353902420BCA}
+	EndGlobalSection
+EndGlobal
