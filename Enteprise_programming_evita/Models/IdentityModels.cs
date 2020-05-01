@@ -21,13 +21,31 @@ namespace Enteprise_programming_evita.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("PropertyConnection", throwIfV1Schema: false)
+
+
         {
+            // Every time we start the system, the old database will be dropped (deleted) and a new one is created
+            // Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
+
+            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContextInitializer());
         }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.Category> Categories { get; set; }
+
+        public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.ItemType> ItemTypes { get; set; }
+    }
+
+    public class ApplicationDbContextInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    {
+        protected override void Seed(ApplicationDbContext context)
+        {
+            base.Seed(context);
         }
     }
 }
