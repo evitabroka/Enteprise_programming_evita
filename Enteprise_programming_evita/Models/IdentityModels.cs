@@ -39,6 +39,8 @@ namespace Enteprise_programming_evita.Models
         public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.Category> Categories { get; set; }
 
         public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.ItemType> ItemTypes { get; set; }
+
+        public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.Item> Items { get; set; }
     }
 
     public class ApplicationDbContextInitializer : DropCreateDatabaseAlways<ApplicationDbContext>

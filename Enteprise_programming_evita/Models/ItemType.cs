@@ -29,7 +29,7 @@ namespace Enteprise_programming_evita.Models
         [Required]
         public string Image { get; set; }
 
-
+        public virtual ICollection<Item> Items { get; set; }
     }
 
 }
