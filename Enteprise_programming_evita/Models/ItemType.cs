@@ -26,9 +26,9 @@ namespace Enteprise_programming_evita.Models
         [MinLength(2, ErrorMessage = "Your Item type name is too short!")]
         public string Name { get; set; }
 
-        [Required]
+       
         public string Image { get; set; }
-
+        public string ImageUrl { get; set; }
         public virtual ICollection<Item> Items { get; set; }
     }
 
