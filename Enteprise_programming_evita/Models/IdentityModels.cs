@@ -28,7 +28,7 @@ namespace Enteprise_programming_evita.Models
             // Every time we start the system, the old database will be dropped (deleted) and a new one is created
             // Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
 
-            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContextInitializer());
+         //   Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContextInitializer());
         }
 
         public static ApplicationDbContext Create()
@@ -43,11 +43,11 @@ namespace Enteprise_programming_evita.Models
         public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.Item> Items { get; set; }
     }
 
-    public class ApplicationDbContextInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
-    {
-        protected override void Seed(ApplicationDbContext context)
-        {
-            base.Seed(context);
-        }
-    }
+    //public class ApplicationDbContextInitializer : DropCreateDatabaseAlways<ApplicationDbContext>
+    //{
+    //    protected override void Seed(ApplicationDbContext context)
+    //    {
+    //        base.Seed(context);
+    //    }
+    //}
 }

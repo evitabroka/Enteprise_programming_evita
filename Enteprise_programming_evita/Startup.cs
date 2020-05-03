@@ -20,16 +20,17 @@ namespace Enteprise_programming_evita
         {
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                using( RoleManager<IdentityRole> roleManager =
+                using (RoleManager<IdentityRole> roleManager =
                     new RoleManager<IdentityRole>(
                         new RoleStore<IdentityRole>(context)))
                 {
-                    if( !roleManager.RoleExists("Admin"))
+                    if (!roleManager.RoleExists("Admin"))
                     {
                         IdentityRole role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
                         role.Name = "Admin";
                         roleManager.Create(role);
                     }
+                    
                 }
 
                 using (UserManager<ApplicationUser> UserManager =
