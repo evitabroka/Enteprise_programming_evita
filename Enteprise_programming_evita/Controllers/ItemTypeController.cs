@@ -16,6 +16,7 @@ namespace Enteprise_programming_evita.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Properties
+        [Authorize()]
         public ActionResult Index()
         {
             var data = db.ItemTypes.Include(p => p.Category);
@@ -23,6 +24,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Properties/Details/5
+        [Authorize()]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,6 +40,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Properties/Create
+        [Authorize()]
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
@@ -47,10 +50,11 @@ namespace Enteprise_programming_evita.Controllers
         // POST: Properties/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize()]
         [HttpPost]
         [ValidateAntiForgeryToken]
   
-        public ActionResult Create([Bind(Include = "Id,CategoryId,Name, Price")] ItemType itemType, HttpPostedFileBase Image)
+        public ActionResult Create([Bind(Include = "Id,CategoryId,Name")] ItemType itemType, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
             { 
@@ -62,7 +66,7 @@ namespace Enteprise_programming_evita.Controllers
                 }else
                     if(!db.ItemTypes.Any(i => i.Name == itemType.Name))
                 {
-                    string accessToken = "5clFbYDf69AAAAAAAAAAUpeTeTocwvjJUn-ymBjZSVxc9398emg-8ZWK6uIkX994";
+                    string accessToken = "5clFbYDf69AAAAAAAAAAVoBwx5D-MlrHadFCLd-OqejG_37f7vXQ9A5rEFG0GghA";
                     using (DropboxClient client = new DropboxClient(accessToken, new DropboxClientConfig(ApplicationName)))
                     {
 
@@ -99,6 +103,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Properties/Edit/5
+        [Authorize()]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -111,6 +116,7 @@ namespace Enteprise_programming_evita.Controllers
                 return HttpNotFound();
             }
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", itemType.CategoryId);
+         
             return View(itemType);
         }
 
@@ -119,6 +125,7 @@ namespace Enteprise_programming_evita.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize()]
         public ActionResult Edit([Bind(Include = "Id,CategoryId,Price,Name,Image")] ItemType itemType)
         {
             if (ModelState.IsValid)
@@ -132,6 +139,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Properties/Delete/5
+        [Authorize()]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -149,6 +157,7 @@ namespace Enteprise_programming_evita.Controllers
         // POST: Properties/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize()]
         public ActionResult DeleteConfirmed(int id)
         {
             ItemType itemType = db.ItemTypes.Find(id);

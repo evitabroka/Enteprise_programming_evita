@@ -14,12 +14,14 @@ namespace Enteprise_programming_evita.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Localities
+        [Authorize(Roles ="Admin")]
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
         }
 
         // GET: Localities/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,6 +37,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Localities/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
@@ -45,6 +48,7 @@ namespace Enteprise_programming_evita.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create([Bind(Include = "Id,Name")] Category category)
         {
             if (ModelState.IsValid)
@@ -58,6 +62,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Localities/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,6 +82,7 @@ namespace Enteprise_programming_evita.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "Id,Name")] Category category)
         {
             if (ModelState.IsValid)
@@ -89,6 +95,7 @@ namespace Enteprise_programming_evita.Controllers
         }
 
         // GET: Localities/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -106,6 +113,7 @@ namespace Enteprise_programming_evita.Controllers
         // POST: Localities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
            Category category = db.Categories.Find(id);

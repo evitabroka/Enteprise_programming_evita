@@ -176,6 +176,7 @@
     <Compile Include="Controllers\ItemController.cs" />
     <Compile Include="Controllers\ItemTypeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,6 +186,7 @@
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\ItemType.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Quality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -253,9 +255,12 @@
     <Content Include="Views\ItemType\Delete.cshtml" />
     <Content Include="Views\Category\Delete.cshtml" />
     <Content Include="Views\Item\Index.cshtml" />
-    <Content Include="Views\Item\Create.cshtml" />
     <Content Include="Views\ItemType\UploadImage.cshtml" />
     <Content Include="Views\ItemType\list.cshtml" />
+    <Content Include="Views\Item\Create.cshtml" />
+    <Content Include="Views\Quality\Index.cshtml" />
+    <Content Include="Views\Item\Edit.cshtml" />
+    <Content Include="Views\Item\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

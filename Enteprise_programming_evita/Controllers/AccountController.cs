@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Enteprise_programming_evita.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Enteprise_programming_evita.Controllers
 {
@@ -155,6 +156,13 @@ namespace Enteprise_programming_evita.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    using (ApplicationDbContext context = new ApplicationDbContext())
+                    {
+                        using (UserManager<ApplicationUser> userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context)))
+                        {
+                            IdentityResult chkRole = userManager.AddToRole(user.Id, "RegisteredUser");
+                        }
+                    }
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771

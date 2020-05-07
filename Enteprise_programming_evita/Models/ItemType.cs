@@ -17,9 +17,7 @@ namespace Enteprise_programming_evita.Models
         public int CategoryId { get; set; }
         public Category Category { get; set; }
 
-        [Required]
-        [Range(100.0, 10000000.0, ErrorMessage = "The price for a property needs to be between 100 and 10000000")]
-        public decimal Price { get; set; }
+     
 
 
         [Required]

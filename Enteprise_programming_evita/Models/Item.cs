@@ -12,17 +12,27 @@ namespace Enteprise_programming_evita.Models
         /// Id is the primary key.. It should be named Id
         /// </summary>
         [Key]
-        public int Id { get; set; }
+        public int ItemId { get; set; }
+
+       
+      
+        public int ItemTypeId { get; set; }
+
+       
+        public ItemType ItemType { get; set; }
 
         [Required]
+        [Range(1, 10000000, ErrorMessage = "The quantity  needs to be positive")]
         public int Quantity { get; set; }
-        [Required]
-        public string Quality { get; set; }
+
+       
+        public int QualityId { get; set; }
+        public Quality Quality { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        [Range(1.0, 10000000.0, ErrorMessage = "The price for a property needs to be positive")]
+        public decimal Price { get; set; }
 
-        [Required]
         public string Owner { get; set; }
 
 

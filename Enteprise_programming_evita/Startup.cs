@@ -4,16 +4,30 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
 using System;
+using System.Linq;
 
 [assembly: OwinStartupAttribute(typeof(Enteprise_programming_evita.Startup))]
 namespace Enteprise_programming_evita
 {
     public partial class Startup
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
             createRolesAndDefaultUsers();
+            Addquality();
+          
+        }
+
+        public void Addquality()
+        {
+            if (db.Qualities == null)
+            {
+
+                db.SaveChanges();
+            }
+
         }
 
         private void createRolesAndDefaultUsers()
@@ -30,7 +44,15 @@ namespace Enteprise_programming_evita
                         role.Name = "Admin";
                         roleManager.Create(role);
                     }
-                    
+                    if (!roleManager.RoleExists("RegisteredUser"))
+                    {
+                        IdentityRole role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                        role.Name = "RegisteredUser";
+                        roleManager.Create(role);
+                    }
+
+                  
+
                 }
 
                 using (UserManager<ApplicationUser> UserManager =

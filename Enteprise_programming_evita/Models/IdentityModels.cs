@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -29,6 +30,8 @@ namespace Enteprise_programming_evita.Models
             // Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
 
            Database.SetInitializer<ApplicationDbContext>(new ApplicationDbContextInitializer());
+
+           
         }
 
         public static ApplicationDbContext Create()
@@ -41,12 +44,27 @@ namespace Enteprise_programming_evita.Models
         public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.ItemType> ItemTypes { get; set; }
 
         public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.Item> Items { get; set; }
+
+        public System.Data.Entity.DbSet<Enteprise_programming_evita.Models.Quality> Qualities { get; set; }
     }
 
     public class ApplicationDbContextInitializer : DropCreateDatabaseIfModelChanges<ApplicationDbContext>
     {
         protected override void Seed(ApplicationDbContext context)
         {
+            //
+            var QualityList = new List<Quality>();
+
+            QualityList.Add(new Quality() { QualityName = "Good" });
+            QualityList.Add(new Quality() { QualityName = "Bad" });
+            QualityList.Add(new Quality() { QualityName = "Poor" });
+            QualityList.Add(new Quality() { QualityName = "Excelent" });
+
+            foreach (var quality in QualityList)
+                context.Qualities.Add(quality);
+
+
+
             base.Seed(context);
         }
     }
