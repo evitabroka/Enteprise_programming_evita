@@ -57,44 +57,68 @@ namespace Enteprise_programming_evita.Controllers
         public ActionResult Create([Bind(Include = "Id,CategoryId,Name")] ItemType itemType, HttpPostedFileBase Image)
         {
             if (ModelState.IsValid)
-            { 
-                if(Image == null )
+            {
+                if (Image == null)
                 {
                     ModelState.AddModelError("Image", "Image can not be empty");
                     ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", itemType.CategoryId);
                     return View(itemType);
-                }else
-                    if(!db.ItemTypes.Any(i => i.Name == itemType.Name))
+                }
+                else
+                    if (!db.ItemTypes.Any(i => i.Name == itemType.Name))
                 {
-                    string accessToken = "5clFbYDf69AAAAAAAAAAVoBwx5D-MlrHadFCLd-OqejG_37f7vXQ9A5rEFG0GghA";
-                    using (DropboxClient client = new DropboxClient(accessToken, new DropboxClientConfig(ApplicationName)))
+                    ////I inserted
+
+
+
+                    byte[] readBytes = new byte[2];
+                    Image.InputStream.Read(readBytes, 0, 2);
+                    Image.InputStream.Position = 0;
+                    if (
+                        (readBytes[0] == 255 && readBytes[1] == 216) //jpg
+                        ||
+                        (readBytes[0] == 66 && readBytes[1] == 77) //bmp
+                       )
+
+
                     {
 
-                        string[] spitInputFileName = Image.FileName.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
-                        string fileNameAndExtension = spitInputFileName[spitInputFileName.Length - 1];
+                        string accessToken = "5clFbYDf69AAAAAAAAAAYsKWBqVyy2JAVzLuDxiqCC6ph_T9yAx5DRv0PoWH7PQ0";
+                        using (DropboxClient client = new DropboxClient(accessToken, new DropboxClientConfig(ApplicationName)))
+                        {
 
-                        string[] fileNameAndExtensionSplit = fileNameAndExtension.Split('.');
-                        string originalFileName = fileNameAndExtensionSplit[0];
-                        string originalExtension = fileNameAndExtensionSplit[1];
+                            string[] spitInputFileName = Image.FileName.Split(new string[] { "\\" }, StringSplitOptions.RemoveEmptyEntries);
+                            string fileNameAndExtension = spitInputFileName[spitInputFileName.Length - 1];
 
-                        string fileName = @"/Images/" + originalFileName + Guid.NewGuid().ToString().Replace("-", "") + "." + originalExtension;
+                            string[] fileNameAndExtensionSplit = fileNameAndExtension.Split('.');
+                            string originalFileName = fileNameAndExtensionSplit[0];
+                            string originalExtension = fileNameAndExtensionSplit[1];
 
-                        var updated = client.Files.UploadAsync(
-                            fileName,
-                            mode: WriteMode.Overwrite.Overwrite.Instance,
-                            body: Image.InputStream).Result;
+                            string fileName = @"/Images/" + originalFileName + Guid.NewGuid().ToString().Replace("-", "") + "." + originalExtension;
 
-                        var result = client.Sharing.CreateSharedLinkWithSettingsAsync(fileName).Result;
-                        itemType.ImageUrl = result.Name;
-                        itemType.Image = result.Url.Replace("?dl=0", "?raw=1");
+                            var updated = client.Files.UploadAsync(
+                                fileName,
+                                mode: WriteMode.Overwrite.Overwrite.Instance,
+                                body: Image.InputStream).Result;
+
+                            var result = client.Sharing.CreateSharedLinkWithSettingsAsync(fileName).Result;
+                            itemType.ImageUrl = result.Name;
+                            itemType.Image = result.Url.Replace("?dl=0", "?raw=1");
+                        }
+
+
+                        db.ItemTypes.Add(itemType);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+
+
                     }
-        
-                    db.ItemTypes.Add(itemType);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-
-
+                    else
+                    {
+                        ViewBag.extensionError = "it needs to be jpg or bmp";
+                    }
                 }
+            
             }
 
                 ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", itemType.CategoryId);

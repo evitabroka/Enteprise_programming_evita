@@ -6,25 +6,20 @@ using System.Web.Mvc;
 
 namespace Enteprise_programming_evita.Controllers
 {
-    [HandleError]
-    public class HomeController : Controller
+    public class ErrorController : Controller
     {
+        // GET: Error
         public ActionResult Index()
         {
             return View();
         }
-
-        public ActionResult About()
+        public ActionResult PageNotFound()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult DefaultErrorPage()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

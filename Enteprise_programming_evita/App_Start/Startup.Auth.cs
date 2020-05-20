@@ -55,11 +55,11 @@ namespace Enteprise_programming_evita
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "486354277770-lfv8jjjv94mmtpi5vvbmahv7eeuurv8f.apps.googleusercontent.com",
+                ClientSecret = "w8sHznOBxK6UcHpgXBgPzirQ"
+            });
         }
     }
 }

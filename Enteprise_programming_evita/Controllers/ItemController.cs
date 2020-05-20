@@ -3,10 +3,13 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Enteprise_programming_evita.Controllers
 {
@@ -18,18 +21,13 @@ namespace Enteprise_programming_evita.Controllers
         [Authorize()]
         public ActionResult Index()
         {
-            if (User.IsInRole("Admin")) {
-                var ActiveUserId = User.Identity.GetUserName();
-                var itemslist = db.Items.Include(I => I.ItemType).Include(q => q.Quality);
+            
+            var ActiveUserId = User.Identity.GetUserName();
+                var itemslist = db.Items.Include(I => I.ItemType).Include(q => q.Quality).Include(u=>u.Owner);
                 ViewBag.username = ActiveUserId;
                 return View(itemslist.ToList());
-            }
-            else if (User.IsInRole("RegisteredUser")) {
-                var ActiveUserId = User.Identity.GetUserName();
-                var itemslist = db.Items.Include(p => p.ItemType).Include(q => q.Quality).ToList();
-                return View(itemslist.ToList());
-            }
-            else { }
+            
+           
 
             return View(db.Items.ToList());
         }
@@ -76,36 +74,33 @@ namespace Enteprise_programming_evita.Controllers
             if (ModelState.IsValid)
 
             {
-                if (db.Items.Any(ac => ac.ItemTypeId.Equals(item.ItemTypeId)))
+                try
                 {
-                    
-                     
+                    using (var db = new ApplicationDbContext())
+                    {
 
-                        ViewBag.wrong = ("Itemtype is the same, change the price or qunatity");
-          
+                        item.OwnerId = User.Identity.GetUserId();
+                        db.Items.Add(item);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
                 }
+                catch (DbUpdateException ex)
+                {
+                    ViewBag.wrong = "Itemtype with these paremeters already exists! change price, quality or quantity";
+                }
+
+
             }
-
-            else
-            {
-                item.Owner = User.Identity.GetUserId();
-                db.Items.Add(item);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-
-
             return View(item);
         }
-
     
 
 
         // GET: Properties/Edit/5
         [Authorize()]
         public ActionResult Edit(int? id)
-        {
+        { 
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -115,9 +110,10 @@ namespace Enteprise_programming_evita.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.QualityId = new SelectList(db.Qualities, "QualityId", "QualityName", item.QualityId);
+            ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "Name", item.ItemType);
             ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", item.ItemType);
-            ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "Name");
-            ViewBag.QualityId = new SelectList(db.Qualities, "QualityId", "QualityName");
+
             return View(item);
         }
 
@@ -127,15 +123,29 @@ namespace Enteprise_programming_evita.Controllers
         [Authorize()]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CategoryId,Price,Name,Image")] Item item)
+        public ActionResult Edit([Bind(Include = "ItemId,CategoryId, Quantity,Quality, Owner, QualityId, OwnerId, ItemType, ItemTypeId, Price,Name,Image")] Item item)
         {
             if (ModelState.IsValid)
+
             {
-                db.Entry(item).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    using (var db = new ApplicationDbContext())
+                    {
+
+                        db.Entry(item).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch (DbUpdateException ex)
+                {
+                    ViewBag.wrong = "Itemtype with these paremeters already exists! change price, quality or quantity";
+                }
+                ViewBag.QualityId = new SelectList(db.Qualities, "QualityId", "QualityName", item.QualityId);
+                ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "Name", item.ItemType);
+                return View(item);
             }
-            ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "Name", item.ItemType);
             return View(item);
         }
 
