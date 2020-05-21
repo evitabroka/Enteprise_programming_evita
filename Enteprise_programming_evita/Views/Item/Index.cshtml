@@ -1,76 +1,57 @@
-﻿@model IEnumerable<Enteprise_programming_evita.Models.Item>
+﻿@model IPagedList<Enteprise_programming_evita.Models.Item>
 @using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Index";
 }
-
+@using PagedList.Mvc;
+@using PagedList;
 <h2>Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 @ViewBag.wrong
+@Html.ActionLink("<- Go back to main menu ", "index", "Item") |  @Html.ActionLink("Latest adedded", "Index", new { sortOrder = "dis" }) |
+
+@Html.ActionLink("oldest added", "Index", new { sortOrder = "ais" })
+<div class="row">
+    @foreach (var item in Model)
+    {
+        @Html.Partial("PartielCard", item)
+    }
+
+</div>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ItemType.Name)
+            @Html.DisplayNameFor(model => model.First().ItemType.Name)
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.Quantity)
+            @Html.DisplayNameFor(model => model.First().Quantity)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Quality.QualityName)
+            @Html.DisplayNameFor(model => model.First().Quality.QualityName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            @Html.DisplayNameFor(model => model.First().Price)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Owner.Email)
-           
+            @Html.DisplayNameFor(model => model.First().Owner.Email)
+
         </th>
         <th>
-            @Html.DisplayName("Image")
+            @Html.DisplayNameFor(model => model.First().AddingDate)
         </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-<tr>
-
-    <td>
-        @Html.DisplayFor(modelItem => item.ItemType.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Quantity)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Quality.QualityName)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Price)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Owner.Email)
-
-    </td>
-    <td>
-
-        <img style=" height: 100px;" src='@Url.Content(Url.Content(item.ItemType.Image))' />
-    </td>
-      <td>
-        @if (User.Identity.GetUserId() == item.OwnerId)
-       {
-           @Html.ActionLink("Edit", "Edit", new { id = item.ItemId });
-           <p> | </p>
-           @Html.ActionLink("Delete", "Delete", new { id = item.ItemId });
-       }
-
-    </td>
-        
-</tr>
+        @Html.Partial("PartialPage", item)
     }
 
 </table>
+@Html.PagedListPager(Model, m => Url.Action("Index", "Item", new { sortOrder = ViewBag.sourt, m, search = Request.QueryString["search"] }))

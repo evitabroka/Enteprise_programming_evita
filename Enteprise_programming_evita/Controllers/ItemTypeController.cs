@@ -83,7 +83,7 @@ namespace Enteprise_programming_evita.Controllers
 
                     {
 
-                        string accessToken = "5clFbYDf69AAAAAAAAAAYsKWBqVyy2JAVzLuDxiqCC6ph_T9yAx5DRv0PoWH7PQ0";
+                        string accessToken = "5clFbYDf69AAAAAAAAAAiu0DKNV9ZiJX4W39WBigonqs1WPQXTeUzuUdpZYTDtXq";
                         using (DropboxClient client = new DropboxClient(accessToken, new DropboxClientConfig(ApplicationName)))
                         {
 

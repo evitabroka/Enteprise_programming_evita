@@ -1,0 +1,16 @@
+﻿@model Enteprise_programming_evita.Models.Item
+@using Microsoft.AspNet.Identity
+<div class="col-6">
+    <div class="card">
+      <img style=" height: 100px;" src='@Url.Content(Url.Content(Model.ItemType.Image))' />
+        <div class="card-block">
+            <h4 class="card-title">  @Html.DisplayFor(modelItem => Model.ItemType.Name)</h4>
+            <p><b>Quality :</b>     @Html.DisplayFor(modelItem => Model.Quantity) </p>
+            <p><b>Owner :</b>  @Html.DisplayFor(modelItem => Model.Quality.QualityName) </p>
+            <p><b>Quantety :</b>    @Html.DisplayFor(modelItem => Model.Price)</p>
+            <p><b>Price :</b>   @Html.DisplayFor(modelItem => Model.Owner.Email)
+
+</div>
+    </div>
+</div>
+

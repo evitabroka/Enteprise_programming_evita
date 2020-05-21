@@ -1,5 +1,6 @@
 ﻿using Enteprise_programming_evita.Models;
 using Microsoft.AspNet.Identity;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,6 +11,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PagedList.Mvc;
+using PagedList;
 
 namespace Enteprise_programming_evita.Controllers
 {
@@ -19,13 +22,35 @@ namespace Enteprise_programming_evita.Controllers
 
         // GET: Properties
         [Authorize()]
-        public ActionResult Index()
+        public ActionResult Index(String sortOrder,int ? m)
         {
-            
+            ViewBag.sort = sortOrder;
             var ActiveUserId = User.Identity.GetUserName();
                 var itemslist = db.Items.Include(I => I.ItemType).Include(q => q.Quality).Include(u=>u.Owner);
                 ViewBag.username = ActiveUserId;
-                return View(itemslist.ToList());
+            if (sortOrder != null)
+            {
+                string check = sortOrder.Substring(0, 3);
+                switch (check)
+                {
+                    case "dis":
+                        itemslist = itemslist.OrderByDescending(s => s.AddingDate);
+                        break;
+                    case "ais":
+                        itemslist = itemslist.OrderBy(s => s.AddingDate);
+                        break;
+                    case "use":
+                        string email = sortOrder.Substring(3);
+                        itemslist = itemslist.Where(i => i.Owner.Email.Equals(email));
+                        break;
+                    default:
+
+                        break;
+
+
+                }
+            }
+            return View(itemslist.ToList().ToPagedList(m ?? 1,2));
             
            
 
@@ -66,7 +91,7 @@ namespace Enteprise_programming_evita.Controllers
         [Authorize()]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ItemTypeId,QualityId,Quantity,Price,Owner")] Item item)
+        public ActionResult Create([Bind(Include = "Id,ItemTypeId,QualityId,Quantity,Price,Owner,AddingDate")] Item item)
         {
             ViewBag.QualityId = new SelectList(db.Qualities, "QualityId", "QualityName", item.QualityId);
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes, "Id", "Name", item.ItemTypeId);
@@ -78,7 +103,7 @@ namespace Enteprise_programming_evita.Controllers
                 {
                     using (var db = new ApplicationDbContext())
                     {
-
+                        item.AddingDate = DateTime.Now;
                         item.OwnerId = User.Identity.GetUserId();
                         db.Items.Add(item);
                         db.SaveChanges();
@@ -123,7 +148,7 @@ namespace Enteprise_programming_evita.Controllers
         [Authorize()]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ItemId,CategoryId, Quantity,Quality, Owner, QualityId, OwnerId, ItemType, ItemTypeId, Price,Name,Image")] Item item)
+        public ActionResult Edit([Bind(Include = "ItemId,CategoryId, Quantity,Quality, Owner, QualityId, OwnerId, ItemType, ItemTypeId, Price,Name,Image,AddingDate")] Item item)
         {
             if (ModelState.IsValid)
 

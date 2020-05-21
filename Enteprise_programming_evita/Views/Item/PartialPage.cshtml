@@ -1,0 +1,35 @@
+﻿@model Enteprise_programming_evita.Models.Item
+@using Microsoft.AspNet.Identity
+<tr>
+
+    <td>
+        @Html.DisplayFor(modelItem => Model.ItemType.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Quantity)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Quality.QualityName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => Model.Price)
+    </td>
+    <td>
+        @Html.ActionLink(Model.Owner.Email, "index", new { sortOrder = "use" + Model.Owner.Email })
+
+    </td>
+    <td>
+
+        @Html.DisplayFor(modelItem => Model.AddingDate)
+    </td>
+    <td>
+        @if (User.Identity.GetUserId() == Model.OwnerId)
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ItemId });
+            <p> | </p>
+            @Html.ActionLink("Delete", "Delete", new { id = Model.ItemId });
+        }
+
+    </td>
+
+</tr>
