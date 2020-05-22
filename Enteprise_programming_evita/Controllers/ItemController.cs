@@ -50,7 +50,7 @@ namespace Enteprise_programming_evita.Controllers
 
                 }
             }
-            return View(itemslist.ToList().ToPagedList(m ?? 1,2));
+            return View(itemslist.ToList().ToPagedList(m ?? 1,8));
             
            
 

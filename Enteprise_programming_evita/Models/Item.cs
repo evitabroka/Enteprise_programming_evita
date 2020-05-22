@@ -14,23 +14,14 @@ namespace Enteprise_programming_evita.Models
 {
     public class Item 
     {
-        /// <summary>
-        /// Id is the primary key.. It should be named Id
-        /// </summary>
         [Key]
        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ItemId { get; set; }
-
         public ApplicationUser Owner { get; set; }
-
-   
-         public string OwnerId { get; set; }
-
+        public string OwnerId { get; set; }
 
         [Index("IX_itemt", 1, IsUnique = true)]
         public int ItemTypeId { get; set; }
-
-   //     [Index("IX_itemt", 1, IsUnique = true)]
         public ItemType ItemType { get; set; }
 
         [Required]
@@ -39,8 +30,6 @@ namespace Enteprise_programming_evita.Models
         public int Quantity { get; set; }
 
         [Index("IX_itemt", 2, IsUnique = true)]
-
-
         public int QualityId { get; set; }
         public Quality Quality { get; set; }
 
@@ -49,7 +38,6 @@ namespace Enteprise_programming_evita.Models
       
         [Range(1.0, 10000000.0, ErrorMessage = "The price for a property needs to be positive")]
         public decimal Price { get; set; }
-
         public DateTime AddingDate { get; set; }
 
 
